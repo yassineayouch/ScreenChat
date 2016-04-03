@@ -52,6 +52,13 @@ UIButton *saveSnapButton = nil;
 }
 %end
 
+// disable "<name> is typing..." notification
+%hook SCChat
+- (void)updateChatTypingStateWithState:(id)arg1 {
+	return;
+}
+%end
+
 // Handles tap to progress
 %hook SCFeedViewController
 -(void)tapToSkip:(UIGestureRecognizer *)tap {
@@ -99,7 +106,7 @@ UIButton *saveSnapButton = nil;
 	saveSnapButton.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - bounds - 5, [UIScreen mainScreen].bounds.size.height - bounds - 5, bounds, bounds);
 
 	[self addSubview:saveSnapButton];
-	[self bringSubviewToFront:saveSnapButton];	
+	[self bringSubviewToFront:saveSnapButton];
 
 	[self setUserInteractionEnabled:YES];
 }
