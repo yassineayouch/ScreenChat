@@ -114,10 +114,12 @@ UIButton *saveSnapButton = nil;
 %new
 -(void) saveImage:(id)sender {
 	if ([self.imageView image] != nil) {
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Saving..." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil] autorelease];
+		[alert show];
 		// Empty block for callback method to prevent crash.
 		void (^fillerBlock)(void) = ^{};
-
 		[[%c(SCSnapSaver) shared] saveSnapImageToSnapAlbum:[self.imageView image] completionBlock:fillerBlock];
+		[alert dismissWithClickedButtonIndex:0 animated:YES];
 	}
 }
 %end
@@ -151,8 +153,12 @@ UIButton *saveSnapButton = nil;
 
 %new
 -(void) saveVideo:(id)sender {
-	if(UIVideoAtPathIsCompatibleWithSavedPhotosAlbum([[[[self performSelector:@selector(currentItem)] performSelector:@selector(asset)] performSelector:@selector(URL)] performSelector:@selector(path)]))
+	if(UIVideoAtPathIsCompatibleWithSavedPhotosAlbum([[[[self performSelector:@selector(currentItem)] performSelector:@selector(asset)] performSelector:@selector(URL)] performSelector:@selector(path)])) {
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Saving..." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil] autorelease];
+		[alert show];
 		UISaveVideoAtPathToSavedPhotosAlbum([[[[self performSelector:@selector(currentItem)] performSelector:@selector(asset)] performSelector:@selector(URL)] performSelector:@selector(path)], nil, nil, nil);
+		[alert dismissWithClickedButtonIndex:0 animated:YES];
+	}
 }
 %end
 
